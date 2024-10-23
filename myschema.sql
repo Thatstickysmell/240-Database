@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `Band`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Band` (
-  `BandID` int NOT NULL,
+  `BandID` int NOT NULL AUTO_INCREMENT,
   `BandName` varchar(150) NOT NULL,
   `YearFormed` year DEFAULT NULL,
   `OriginCity` varchar(150) DEFAULT NULL,
   `OriginState` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`BandID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `Band` (
 
 LOCK TABLES `Band` WRITE;
 /*!40000 ALTER TABLE `Band` DISABLE KEYS */;
-INSERT INTO `Band` VALUES (1,'Umphrey\'s Mcgee',1997,'South Bend','Indiana'),(2,'King Gizzard and the Lizard Wizard',2010,'Melbourne','Victoria'),(3,'The Smashing Pumpkins',1988,'Chicago','Illinois');
+INSERT INTO `Band` VALUES (1,'Umphrey\'s Mcgee',1997,'South Bend','Indiana'),(2,'King Gizzard and the Lizard Wizard',2010,'Melbourne','Victoria'),(3,'The Smashing Pumpkins',1988,'Chicago','Illinois'),(4,'The Murlocs',2010,'Melbourne','Victoria');
 /*!40000 ALTER TABLE `Band` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,13 +50,13 @@ DROP TABLE IF EXISTS `BandPerson`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `BandPerson` (
-  `BandID` int NOT NULL,
+  `BandID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(150) DEFAULT NULL,
   `DateOfBirth` date DEFAULT NULL,
   `RoleInBand` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`BandID`),
   CONSTRAINT `BandPerson_ibfk_1` FOREIGN KEY (`BandID`) REFERENCES `Band` (`BandID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `BandPerson` (
 
 LOCK TABLES `BandPerson` WRITE;
 /*!40000 ALTER TABLE `BandPerson` DISABLE KEYS */;
-INSERT INTO `BandPerson` VALUES (1,'Jake Cinninger','1975-12-16','Lead Guitar'),(2,'Ambrose Kenny-Smith','1992-07-19','Harmonica'),(3,'Billy Corgan','1967-03-17','Front Man');
+INSERT INTO `BandPerson` VALUES (1,'Jake Cinninger','1975-12-16','Lead Guitar'),(2,'Ambrose Kenny-Smith','1992-07-19','Harmonica'),(3,'Billy Corgan','1967-03-17','Front Man'),(4,'Ambrose Kenny-Smith','1992-07-19','Front Man');
 /*!40000 ALTER TABLE `BandPerson` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,4 +267,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-17  5:12:16
+-- Dump completed on 2024-10-22 20:22:39
