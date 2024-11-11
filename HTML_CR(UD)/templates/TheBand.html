@@ -1,0 +1,34 @@
+<!-- TheBand Table -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Band Database</title>
+</head>
+<body>
+    <h1>Bands</h1>
+    <table>
+        <tr>
+            <th>Band Name</th>
+            <th>Year Formed</th>
+            <th>Origin City</th>
+            <th>Origin State</th>
+        </tr>
+        {% for band in collection %}
+        <tr>
+            <td>{{band[0]}}</td>
+            <td>{{band[1]}}</td>
+            <td>{{band[2]}}</td>
+            <td>{{band[3]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <form method="GET" action="/">
+        Band Name: <input type="text" name="TheBandName"><br>
+        Year Formed: <input type="text" name="YearFormed"><br>
+        Origin City: <input type="text" name="OriginCity"><br>
+        Origin State: <input type="text" name="OriginState"><br>
+        <input type="submit" value="Submit Your Band">
+    </form>
+</body>
+</html>
