@@ -44,9 +44,10 @@ def updateBand():
         return "Error, id not found"
     elif BandName is not None and YearFormed is not None:
         mycursor = connection.cursor()
+        print("UPDATE Band set BandName=%s, YearFormed=%s where BandID=%s", (BandName, YearFormed, BandID))
         mycursor.execute("UPDATE Band set BandName=%s, YearFormed=%s where BandID=%s", (BandName, YearFormed, BandID))
-        mycursor.close()
         connection.commit()
+        mycursor.close()
         return redirect(url_for('showBand'))
 
 
@@ -54,7 +55,7 @@ def updateBand():
     mycursor.execute("select BandName, YearFormed from Band where BandID=%s;", (BandID,))
     existingBandName, existingYearFormed = mycursor.fetchone()
     mycursor.close()
-    return render_template('TheBand.html', BandID=BandID, existingBandName=existingBandName, existingYearFormed=existingYearFormed)
+    return render_template('UpdateTheBand.html', existingBandName=existingBandName, existingYearFormed=existingYearFormed, BandID=BandID)
 
 
 if __name__ == '__main__':
