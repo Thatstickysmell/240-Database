@@ -29,7 +29,7 @@ CREATE TABLE `Band` (
   `OriginCity` varchar(150) DEFAULT NULL,
   `OriginState` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`BandID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `Band` (
 
 LOCK TABLES `Band` WRITE;
 /*!40000 ALTER TABLE `Band` DISABLE KEYS */;
-INSERT INTO `Band` VALUES (1,'Umphrey\'s Mcgee',1997,'South Bend','Indiana'),(2,'King Gizzard and the Lizard Wizard',2010,'Melbourne','Victoria'),(3,'The Smashing Pumpkins',1988,'Chicago','Illinois'),(4,'The Murlocs',2010,'Melbourne','Victoria');
+INSERT INTO `Band` VALUES (1,'Umphrey\'s Mcgee',1997,'South Bend','Indiana'),(2,'King Gizzard and the Lizard Wizard',2010,'Melbourne','Victoria'),(3,'The Smashing Pumpkins',1988,'Chicago','Illinois'),(4,'The Murlocs',2010,'Melbourne','Victoria'),(5,'Tenacious D',1994,'Los Angeles','California'),(34,'Cake',1991,'Sacramento','California');
 /*!40000 ALTER TABLE `Band` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,12 +186,12 @@ DROP TABLE IF EXISTS `Song`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Song` (
-  `SongID` int NOT NULL,
+  `SongID` int NOT NULL AUTO_INCREMENT,
   `Composer` varchar(150) DEFAULT NULL,
   `Title` varchar(150) DEFAULT NULL,
   `Album` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`SongID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -200,7 +200,7 @@ CREATE TABLE `Song` (
 
 LOCK TABLES `Song` WRITE;
 /*!40000 ALTER TABLE `Song` DISABLE KEYS */;
-INSERT INTO `Song` VALUES (1,'Umphrey\'s Mcgee','The Bottom Half','The Bottom Half'),(2,'King Gizzard and the Lizard Wizard','The Reticent Racounteur','Murder of the Universe'),(3,'Tenacious D','Kielbasa','Tenacious D'),(4,'Stevie Nicks','Landslide','Fleetwood Mac');
+INSERT INTO `Song` VALUES (1,'Umphrey\'s Mcgee','The Bottom Half','The Bottom Half'),(2,'King Gizzard and the Lizard Wizard','The Reticent Racounteur','Murder of the Universe'),(3,'Tenacious D','Kielbasa','Tenacious D'),(4,'Stevie Nicks','Landslide','Fleetwood Mac'),(6,'Umphrey\'s Mcgee','Ocean Billy','Safety in Numbers');
 /*!40000 ALTER TABLE `Song` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,4 +267,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-23  5:49:13
+-- Dump completed on 2024-11-15 20:28:42
