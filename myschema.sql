@@ -29,7 +29,7 @@ CREATE TABLE `Band` (
   `OriginCity` varchar(150) DEFAULT NULL,
   `OriginState` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`BandID`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `Band` (
 
 LOCK TABLES `Band` WRITE;
 /*!40000 ALTER TABLE `Band` DISABLE KEYS */;
-INSERT INTO `Band` VALUES (1,'Umphrey\'s Mcgee',1997,'South Bend','Indiana'),(2,'King Gizzard and the Lizard Wizard',2010,'Melbourne','Victoria'),(3,'The Smashing Pumpkins',1988,'Chicago','Illinois'),(4,'The Murlocs',2010,'Melbourne','Victoria'),(5,'Tenacious D',1994,'Los Angeles','California'),(34,'Cake',1991,'Sacramento','California');
+INSERT INTO `Band` VALUES (1,'Umphrey\'s Mcgee',1997,'South Bend','Indiana'),(2,'King Gizzard and the Lizard Wizard',2010,'Melbourne','Victoria'),(3,'The Smashing Pumpkins',1988,'Chicago','Illinois'),(4,'The Murlocs',2010,'Melbourne','Victoria'),(5,'Tenacious D',1994,'Los Angeles','California'),(34,'Cake',1991,'Sacramento','California'),(37,'Zach rad band',1999,'Missoula','Montana');
 /*!40000 ALTER TABLE `Band` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,4 +267,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-15 20:28:42
+-- Dump completed on 2024-11-15 20:44:58
