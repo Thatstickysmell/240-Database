@@ -48,3 +48,10 @@ While this would be a rather small database, we should at least be able to answe
 These were the notes we took during our meeting to come up with this structure. 
 ![image](https://github.com/user-attachments/assets/99a969cc-fac6-4305-96a6-2125199e8572)
 
+
+November 15th, 2024
+So here is my final Table diagram that I made for my project. 
+![Zach Kessler Project - Normalization and Preliminary Data Module 6](https://github.com/user-attachments/assets/8595353e-d57a-46a3-9661-90ea6f4818bd)
+
+
+
