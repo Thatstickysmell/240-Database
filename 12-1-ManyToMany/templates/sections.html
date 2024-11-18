@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}{{pageTitle}}{% endblock %}
+{% block title %}Showing Songs{% endblock %}
+
+
+{% block content %}
+
+<table>
+  <tr>
+    <th>Section ID</th>
+    <th>Course Name</th>
+    <th>Course Code</th>
+  </tr>
+  {% for row in sectionList %}
+  <tr>
+    <td>
+      {{row[0]}}
+    </td>
+    <td>
+      {{row[1]}}
+    </td>
+    <td>
+      {{row[2]}}
+    </td>
+    <td>
+      <a href="/showStudents?PerformanceID={{row[0]}}">View Registered Students</a><br />
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% if othersections %}
+<form>
+  <select name="BandPlaysSong">
+    <option>Register for another section</option>
+    {% for othersection in othersections %}
+    <option value='{{ othersection[0] }}'>{{othersection[1]}} Section {{othersection[2]}} (CRN {{othersection[3]}})
+    </option>
+    {% endfor %}
+  </select>
+  <button type="submit" value="register">Register for new class</button>
+  <input type="hidden" name="BandID" value="{{ studentId }}" />
+</form>
+{% endif %}
+
+{% endblock %}

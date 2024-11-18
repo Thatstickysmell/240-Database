@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block header %}{{pageTitle}}{% endblock %}
+{% block title %}Showing Bands{% endblock %}
+
+
+{% block content %}
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Band Name</th>
+    <th>Year Formed</th>
+  </tr>
+  {% for row in studentList %}
+  <tr>
+    <td>
+      {{row[0]}}
+    </td>
+    <td>
+      {{row[1]}}
+    </td>
+    <td>
+      {{row[2]}}
+    </td>
+    <td>
+      <a href="/showSongs?SongID={{row[0]}}">View Songs They Have Played</a><br />
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
