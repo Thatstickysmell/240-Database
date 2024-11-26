@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block header %}{{pageTitle}}{% endblock %}
+{% block title %}Showing Students{% endblock %}
+
+
+{% block content %}
+
+<table>
+  <tr>
+    <th>Song ID</th>
+    <th>Song Title</th>
+    <th>Composer</th>
+  </tr>
+  {% for row in songList %}
+  <tr>
+    <td>
+      {{row[0]}}
+    </td>
+    <td>
+      {{row[1]}}
+    </td>
+    <td>
+      {{row[2]}}
+    </td>
+    <td>
+      <a href="/song-info?SongID={{row[0]}}">View Song</a><br />
+      <a href="/songs?delete_SongID={{row[0]}}">Delete Song</a><br />
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+
+<h3>Add new Song</h3>
+<form action="">
+  Song ID: <input name="new_SongID" ><br />
+  Song Title: <input name="new_Title"><br />
+  Composer: <input name="new_Composer"><br />
+  Album: <input name="new_Album"><br />
+  <input type="submit" value="Add song">
+</form>
+{% endblock %}

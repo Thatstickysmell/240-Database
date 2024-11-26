@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block header %}{{pageTitle}}{% endblock %}
+{% block title %}Showing Courses{% endblock %}
+
+
+{% block content %}
+<table>
+  <tr>
+    <th>Band ID</th>
+    <th>Band Name</th>
+    <th>Year Formed</th>
+    <th>Origin City</th>
+    <th>Origin State</th>
+  </tr>
+  {% for row in allBands %}
+  <tr>
+    <td>{{row[0]}}</td>
+    <td>{{row[1]}}</td>
+    <td>{{row[2]}}</td>
+    <td>{{row[3]}}</td>
+    <td>{{row[4]}}</td>
+    <td>
+      <a href="/band-info?BandID={{row[0]}}">View Band</a><br />
+      <a href="/bands?delete_BandID={{row[0]}}">Delete Band</a><br />
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+
+<h3>Add new Band</h3>
+<form action="">
+  Band ID: <input name="new_BandID" ><br />
+  Band Name: <input type="text" name="new_BandName"><br />
+  Year Formed: <input type="text" name="new_YearFormed"><br />
+  Origin City: <input type="text" name="new_OriginCity"><br />
+  Origin State: <input type="text" name="new_OriginState"><br />
+  <input type="submit" value="Add Band">
+</form>
+{% endblock %}

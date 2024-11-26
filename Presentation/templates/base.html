@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+   <head>
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      <title>{% block title %}{% endblock %} - SchoolExample</title></head>
+   <body>
+      <h1>
+         {% block header %}{% endblock %}
+      </h1>
+      {% block content %}{% endblock %}
+      <p><a href="/songs">Show all Songs</a></p>
+      <p><a href="/performances">Show all Performances</a></p>
+      <p><a href="/bands">Show all Bands</a></p>
+   </body>
+</html>

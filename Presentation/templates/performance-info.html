@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block header %}{{pageTitle}}{% endblock %}
+{% block title %}Section Info{% endblock %}
+
+
+{% block content %}
+
+
+<form action="">
+  <h2>Information for Section {{PerformanceID}} <input type="hidden" name="PerformanceID" value="{{PerformanceID}}"><br /></h2>
+  Band Name: <input type="text" name="BandName", value="{{BandName}}"><br />
+  Year Formed: <input type="text" name="YearFormed", value="{{YearFormed}}"><br />
+  Performance Date: <input type="text" name="PerformanceDate" value="{{PerformanceDate}}"><br />
+  Length of Performance: <input type="text" name="Length" value="{{Length}}"><br />
+  <input type="submit" value="Update Information">
+</form>
+
+<h2>Registered Songs</h2>
+
+<table>
+  <tr>
+    <th>Student ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+  </tr>
+{% for student in registered_Songs%}
+  <tr>
+    <td>{{student[0]}}</td>
+    <td>{{student[1]}}</td>
+    <td>{{student[2]}}</td>
+    <td><a href="song-info?SongID={{student[0]}}">View Song</a></td>
+    <td><a href="performance-info?remove_song_id={{student[0]}}&PerformanceID={{PerformanceID}}">Unregister Student</a></td>
+  </tr>
+{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block header %}{{pageTitle}}{% endblock %}
+{% block title %}Showing Sections{% endblock %}
+
+
+{% block content %}
+<table>
+  <tr>
+    <th>Performance ID</th>
+    <th>Band Name</th>
+    <th>Year Formed</th>
+    <th>Performance Date</th>
+    <th>Length of Performance</th>
+  </tr>
+  {% for row in PerformanceList %}
+  <tr>
+    <td>
+      {{row[0]}}
+    </td>
+    <td>
+      {{row[1]}}
+    </td>
+    <td>
+      {{row[2]}}
+    </td>
+    <td>
+      {{row[3]}}
+    </td>
+    <td>
+      {{row[4]}}
+    </td>
+    <td>
+      <a href="/performance-info?PerformanceID={{row[0]}}">View Section</a><br />
+      <a href="/performances?delete_PerformanceID={{row[0]}}">Delete Section</a><br />
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<!-- I need to look at this -->
+<h3>Add new Performance</h3>
+<form action="">
+  Performance ID: <input name="new_PerformanceID" value="{}" ><br />
+  Band: <select id="BandID" name="new_BandID">
+    {% for band in allBands %}
+    <option value="{{band[0]}}">{{band[1]}}</option>
+    {% endfor %}
+  </select><br />
+  Meeting time: <input name="new_PerformanceDate"> <br />
+  Meeting Days: <input name="new_Length"> <br />
+  Meeting Room: <input name="new_BandID"> <br />
+  
+  <input type="submit" value="Add Performance">
+</form>
+{% endblock %}

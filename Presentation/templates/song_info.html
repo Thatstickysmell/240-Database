@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block header %}{{pageTitle}}{% endblock %}
+{% block title %}Song Information{% endblock %}
+
+
+{% block content %}
+
+<form action="">
+  <input type="text" name="Title" value="{{Title}}"><br />
+  <input type="text" name="Composer" value="{{Composer}}"><br />
+  <input type="hidden" name="SongID" value="{{SongID}}"><br />
+  <input type="submit" value="Update Information">
+</form>
+
+Registered Sections
+<table>
+  <tr>
+    <th>Performance ID</th>
+    <th>Course Name</th>
+    <th>Course Code</th>
+    <th>Performance Date</th>
+    <th>Performance Length</th>
+    <th>Performance: Band ID</th>
+  </tr>
+  {% for section in registered_sections %}
+  <tr>
+    <td>
+      {{section[0]}}
+    </td>
+    <td>
+      {{section[1]}}
+    </td>
+    <td>
+      {{section[2]}}
+    </td>
+    <td>{{section[3]}}</td>
+    <td>{{section[4]}}</td>
+    <td>{{section[5]}}</td>
+    <td>
+      <a href="/song-info?SongID={{SongID}}&drop_PerformanceID={{section[0]}}">Unregister</a><br />
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<form action="">
+<p><label for="register">Register for additional sections</label></p>
+<select id="register" name="add_PerformanceID">
+  {% for section in unregistered_sections %}
+  <option value="{{section[0]}}">{{section[0]}} - {{section[1]}} ({{section[2]}})</option>
+  {% endfor %}
+</select>
+<input type="hidden" name="SongID" value="{{SongID}}">
+<input type="submit" value="Add section">
+</form>
+{% endblock %}
