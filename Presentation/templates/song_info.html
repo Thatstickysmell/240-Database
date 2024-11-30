@@ -13,7 +13,7 @@
   <input type="submit" value="Update Information">
 </form>
 
-Registered Sections
+Registered performances
 <table>
   <tr>
     <th>Performance ID</th>
@@ -23,34 +23,34 @@ Registered Sections
     <th>Performance Length</th>
     <th>Performance: Band ID</th>
   </tr>
-  {% for section in registered_sections %}
+  {% for performance in registered_performances %}
   <tr>
     <td>
-      {{section[0]}}
+      {{performance[0]}}
     </td>
     <td>
-      {{section[1]}}
+      {{performance[1]}}
     </td>
     <td>
-      {{section[2]}}
+      {{performance[2]}}
     </td>
-    <td>{{section[3]}}</td>
-    <td>{{section[4]}}</td>
-    <td>{{section[5]}}</td>
+    <td>{{performance[3]}}</td>
+    <td>{{performance[4]}}</td>
+    <td>{{performance[5]}}</td>
     <td>
-      <a href="/song-info?SongID={{SongID}}&drop_PerformanceID={{section[0]}}">Unregister</a><br />
+      <a href="/song-info?SongID={{SongID}}&drop_Performance_id={{performance[0]}}">Unregister</a><br />
     </td>
   </tr>
   {% endfor %}
 </table>
 <form action="">
-<p><label for="register">Register for additional sections</label></p>
-<select id="register" name="add_PerformanceID">
-  {% for section in unregistered_sections %}
-  <option value="{{section[0]}}">{{section[0]}} - {{section[1]}} ({{section[2]}})</option>
+<p><label for="register">Register for additional performances</label></p>
+<select id="register" name="add_performance_id">
+  {% for performance in unregistered_performances %}
+  <option value="{{Song.SongID}}">{{Song.SongID}} - {{Song.Title}} ({{Song.Composer}})</option>
   {% endfor %}
 </select>
 <input type="hidden" name="SongID" value="{{SongID}}">
-<input type="submit" value="Add section">
+<input type="submit" value="Add performance">
 </form>
 {% endblock %}

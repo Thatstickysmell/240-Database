@@ -121,7 +121,7 @@ def get_song_info():
                          select PerformanceID from PerformanceSong where SongID=%s) as remainingPerformances 
                      join Performance on remainingPerformances.PerformanceID=Performance.PerformanceID
                      join Band on Band.BandID=Performance.BandID""", (SongID,))
-    all_sections = mycursor.fetchall()
+    all_performances = mycursor.fetchall()
 
     mycursor.close()
     connection.close()
@@ -132,7 +132,7 @@ def get_song_info():
         Title=Title, 
         Composer=Composer,
         registered_Performances=registered_Performances,
-        unregistered_Performances=all_sections
+        unregistered_Performances=all_performances
         )
 
 @app.route('/songs', methods=['GET'])
@@ -260,7 +260,7 @@ def get_band_info():
     OriginCity = request.args.get('OriginCity')
     OriginState = request.args.get('OriginState')
     if BandName is not None and YearFormed is not None:
-        mycursor.execute("UPDATE Band set BandName=%s, YearFormed=%s, OriginCity%s, OriginState%s where BandID=%s", (BandName, YearFormed, OriginCity, OriginState))
+        mycursor.execute("UPDATE Band set BandName=%s, YearFormed=%s, OriginCity=%s, OriginState=%s where BandID=%s", (BandName, YearFormed, OriginCity, OriginState, BandID))
         connection.commit()
 
     # retrieve Band information
