@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}{{pageTitle}}{% endblock %}
-{% block title %}Showing Students{% endblock %}
+{% block title %}Showing Songs{% endblock %}
 
 
 {% block content %}
@@ -11,6 +11,7 @@
     <th>Song ID</th>
     <th>Song Title</th>
     <th>Composer</th>
+    <th>Album</th>
   </tr>
   {% for row in songList %}
   <tr>
@@ -24,6 +25,9 @@
       {{row[2]}}
     </td>
     <td>
+      {{row[3]}}
+    </td>
+    <td>
       <a href="/song-info?SongID={{row[0]}}">View Song</a><br />
       <a href="/songs?delete_SongID={{row[0]}}">Delete Song</a><br />
     </td>
@@ -34,7 +38,7 @@
 
 <h3>Add new Song</h3>
 <form action="">
-  Song ID: <input name="new_SongID" ><br />
+  <!-- Song ID: <input name="new_SongID" ><br /> -->
   Song Title: <input name="new_Title"><br />
   Composer: <input name="new_Composer"><br />
   Album: <input name="new_Album"><br />

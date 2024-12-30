@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}{{pageTitle}}{% endblock %}
-{% block title %}Showing Courses{% endblock %}
+{% block title %}Showing Bands{% endblock %}
 
 
 {% block content %}
@@ -13,16 +13,16 @@
     <th>Origin City</th>
     <th>Origin State</th>
   </tr>
-  {% for row in allBands %}
+  {% for band in allBands %}
   <tr>
-    <td>{{row[0]}}</td>
-    <td>{{row[1]}}</td>
-    <td>{{row[2]}}</td>
-    <td>{{row[3]}}</td>
-    <td>{{row[4]}}</td>
+    <td>{{band[0]}}</td>
+    <td>{{band[1]}}</td>
+    <td>{{band[2]}}</td>
+    <td>{{band[3]}}</td>
+    <td>{{band[4]}}</td>
     <td>
-      <a href="/band-info?BandID={{row[0]}}">View Band</a><br />
-      <a href="/bands?delete_BandID={{row[0]}}">Delete Band</a><br />
+      <a href="/band-info?BandID={{band[0]}}">View Band</a><br />
+      <a href="/bands?delete_BandID={{band[0]}}">Delete Band</a><br />
     </td>
   </tr>
   {% endfor %}
@@ -31,7 +31,7 @@
 
 <h3>Add new Band</h3>
 <form action="">
-  Band ID: <input name="new_BandID" ><br />
+  <!-- Band ID: <input name="new_BandID" ><br /> -->
   Band Name: <input type="text" name="new_BandName"><br />
   Year Formed: <input type="text" name="new_YearFormed"><br />
   Origin City: <input type="text" name="new_OriginCity"><br />
@@ -39,3 +39,12 @@
   <input type="submit" value="Add Band">
 </form>
 {% endblock %}
+
+<!-- <h3>Add new Song</h3>
+<form action="">
+  Song ID: <input name="new_SongID" ><br />
+  Song Title: <input name="new_Title"><br />
+  Composer: <input name="new_Composer"><br />
+  Album: <input name="new_Album"><br />
+  <input type="submit" value="Add song">
+</form> -->

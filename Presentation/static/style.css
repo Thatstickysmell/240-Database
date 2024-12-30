@@ -1,16 +1,199 @@
+/* Band App Stylesheet */
+
+:root {
+  /* Green and Purple Color Palette */
+  --primary-color: #5faa8b; /* Green */
+  --secondary-color: #b6ad36; /* Purple */
+  --accent-color: #9f70d6; /* Light Purple */
+  --background-color: #423c3c; /* Soft Gray */
+  --text-color: #50ca9b; /* Dark Text */
+  --light-text: #ffffff; /* White Text */
+  --border-color: #dcdcdc; /* Light Gray */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', 'Helvetica', sans-serif;
+}
+
 body {
-    background-color: white;
-  }
-  
-  h1 {
-    color: black;
-    margin-left: 20px;
-  }
-  p {
-    color: black;
-    margin-left: 30px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: rgb(255, 255, 255);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+header {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  padding: 15px;
+  text-align: center;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+h1, h2, h3 {
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  transition: color 0.3s ease;
+}
+
+h1:hover, h2:hover, h3:hover {
+  color: var(--accent-color);
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table, th, td {
+  border: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--secondary-color);
+  color: var(--light-text);
+  padding: 12px;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+tr:nth-child(even) {
+  background-color: #423c3c;
+}
+
+tr:hover {
+  background-color: #9f70d6;
+}
+
+/* Form Styles */
+form {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+input[type="text"], 
+input[type="number"], 
+input[type="date"], 
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, 
+input[type="number"]:focus, 
+input[type="date"]:focus, 
+select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+input[type="submit"], 
+.button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover, 
+.button:hover {
+  background-color: #6c3483; /* Darker purple */
+}
+
+/* Link Styles */
+a {
+  color: #b9aa1b;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .container {
+      padding: 15px;
   }
 
-  table, th, td {
-    border: 1px solid;
+  table {
+      font-size: 14px;
   }
+
+  input[type="text"], 
+  input[type="number"], 
+  input[type="date"], 
+  select {
+      font-size: 16px; /* Prevent zoom on mobile */
+  }
+}
+
+/* Error and Success Messages */
+.error-message {
+  color: #e74c3c;
+  background-color: #f9e6e6;
+  border: 1px solid #e74c3c;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.success-message {
+  color: var(--primary-color);
+  background-color: #e6f8e6;
+  border: 1px solid var(--primary-color);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+/* Performance and Band Specific Styles */
+.performance-details, 
+.band-details {
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}

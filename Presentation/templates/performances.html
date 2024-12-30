@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 
 {% block header %}{{pageTitle}}{% endblock %}
-{% block title %}Showing Sections{% endblock %}
+{% block title %}Showing Performances{% endblock %}
 
 
 {% block content %}
 <table>
   <tr>
+    <th>Performing Band</th>
     <th>Performance ID</th>
-    <th>Band Name</th>
-    <th>Year Formed</th>
+    <th>Band ID</th>
     <th>Performance Date</th>
     <th>Length of Performance</th>
+    <th>Includes Non Band Member</th>
   </tr>
   {% for row in PerformanceList %}
   <tr>
@@ -31,8 +32,11 @@
       {{row[4]}}
     </td>
     <td>
-      <a href="/performance-info?PerformanceID={{row[0]}}">View Section</a><br />
-      <a href="/performances?delete_PerformanceID={{row[0]}}">Delete Section</a><br />
+      {{row[5]}}
+    </td>
+    <td>
+      <a href="/performance-info?PerformanceID={{row[1]}}">View Performance</a><br />
+      <a href="/performances?delete_PerformanceID={{row[1]}}">Delete Performance</a><br />
     </td>
   </tr>
   {% endfor %}
@@ -40,17 +44,17 @@
 
 <!-- I need to look at this -->
 <h3>Add new Performance</h3>
-<form action="">
-  Performance ID: <input name="new_PerformanceID" value="{}" ><br />
-  Band: <select id="BandID" name="new_BandID">
-    {% for band in allBands %}
-    <option value="{{band[0]}}">{{band[1]}}</option>
-    {% endfor %}
-  </select><br />
-  Meeting time: <input name="new_PerformanceDate"> <br />
-  Meeting Days: <input name="new_Length"> <br />
-  Meeting Room: <input name="new_BandID"> <br />
-  
-  <input type="submit" value="Add Performance">
+<form action="/performances" method="get">
+    Performance ID: <input type="text" name="new_PerformanceID"><br>
+    Band ID: <input type="text" name="new_BandID"><br>
+    Performance Date: <input type="date" name="new_PerformanceDate"><br>
+    Length of Performance: <input type="text" name="new_Length"><br>
+    Includes Non-Band Member: 
+    <select name="new_IncludesNonBandPerson">
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+    </select><br>
+    <input type="submit" value="Add Performance">
+</form>
 </form>
 {% endblock %}

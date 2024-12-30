@@ -15,7 +15,7 @@ def default():
 @app.route('/performance-info', methods=['GET'])
 def get_performance_info():
     PerformanceID = request.args.get('PerformanceID')
-    
+    SongID = request.args.get('SongID')
     # redirect to all Songs if no id was provided
     if PerformanceID is None:
         return redirect(url_for("get_performances"))
@@ -34,27 +34,50 @@ def get_performance_info():
         mycursor.execute("UPDATE Performance set PerformanceDate=%s, Length=%s, BandID=%s where PerformanceID=%s", performance_info)
         connection.commit()
 
-    # check to see if a song needs to be dropped from band
+    # Add a new song to the performance
+    add_performance_id = request.args.get('add_performance_id')
+    if add_performance_id is not None:
+        mycursor.execute("""INSERT into PerformanceSong (SongID, PerformanceID) values (%s, %s)""", (SongID, add_performance_id))
+        connection.commit()
+
+    # Adding a song to PerformanceSong
+    if SongID is not None and PerformanceID is not None:
+        mycursor.execute(
+            "INSERT INTO PerformanceSong (SongID, PerformanceID) VALUES (%s, %s)",
+            (SongID, PerformanceID)
+        )
+        connection.commit()
+
+
+
+    # Remove a song from the performance
     remove_song_id = request.args.get('remove_song_id')
     if remove_song_id is not None:
         mycursor.execute("DELETE from PerformanceSong where SongID=%s and PerformanceID=%s", (remove_song_id, PerformanceID))
         connection.commit()
 
-    # retrive basic information for the Performance
-    mycursor.execute("SELECT BandName, YearFormed, PerformanceDate, Length, Performance.BandID from Performance join Band on Performance.BandID=Band.BandID where Performance.PerformanceID=%s", (PerformanceID,))
+    # Retrieve basic information for the Performance
+    mycursor.execute("SELECT BandName, YearFormed, PerformanceDate, Length, IncludesNonBandPerson, Performance.BandID from Performance join Band on Performance.BandID=Band.BandID where Performance.PerformanceID=%s", (PerformanceID,))
     try:
-        BandName, YearFormed, PerformanceDate, Length, BandID = mycursor.fetchall()[0]
+        BandName, YearFormed, PerformanceDate, Length, IncludesNonBandPerson, BandID = mycursor.fetchall()[0]
     except:
         return render_template("error.html", message="Error retrieving Performance - does it exist?")
     
-    # retrieve registration info
-    mycursor.execute("""SELECT Song.SongID, Title, Composer from Song 
+    # Retrieve registered songs
+    mycursor.execute("""SELECT Song.SongID, Title, Composer, Album from Song 
                      join PerformanceSong on PerformanceSong.SongID=Song.SongID 
                      join Performance on PerformanceSong.PerformanceID=Performance.PerformanceID
                      where Performance.PerformanceID=%s
-                     order by Composer""", (PerformanceID,)
-                     )
+                     order by Composer""", (PerformanceID,))
     registeredsongs = mycursor.fetchall()
+
+    # Retrieve all songs (for adding to performance)
+    mycursor.execute("""SELECT SongID, Title from Song 
+                     WHERE SongID NOT IN (
+                         SELECT SongID FROM PerformanceSong 
+                         WHERE PerformanceID = %s
+                     )""", (PerformanceID,))
+    Songs = mycursor.fetchall()
 
     mycursor.close()
     connection.close()
@@ -64,9 +87,12 @@ def get_performance_info():
                            YearFormed=YearFormed,
                            PerformanceDate=PerformanceDate,
                            Length=Length,
+                           IncludesNonBandPerson=IncludesNonBandPerson,
                            BandID=BandID,
-                           registered_Songs=registeredsongs
+                           registered_Songs=registeredsongs,
+                           Songs=Songs
                            )
+
 
 @app.route('/song-info', methods=['GET'])
 def get_song_info():
@@ -84,7 +110,7 @@ def get_song_info():
     new_Composer = request.args.get('Composer')
     new_Album = request.args.get('Album')
     if new_Title is not None and new_Composer is not None and new_Album:
-        mycursor.execute("""UPDATE Song set Title=%s,Composer=%s, Album%s where SongID=%s""", (new_Title, new_Composer, new_Album, SongID))
+        mycursor.execute("""UPDATE Song set Title=%s,Composer=%s, Album=%s where SongID=%s""", (new_Title, new_Composer, new_Album, SongID))
         connection.commit()
 
     # check to see if a Performance needs to be dropped
@@ -100,8 +126,8 @@ def get_song_info():
         connection.commit()
 
     # retreve the song information from the database
-    mycursor.execute("Select Title, Composer from Song where SongID=%s", (SongID,))
-    Title, Composer = mycursor.fetchone()
+    mycursor.execute("Select Title, Composer, Album from Song where SongID=%s", (SongID,))
+    Title, Composer, Album = mycursor.fetchone()
     if Title is None or Composer is None:
         return """Error - unable to find song. <a href="/students">Return to the song list</a>"""
     
@@ -131,8 +157,9 @@ def get_song_info():
         SongID=SongID, 
         Title=Title, 
         Composer=Composer,
-        registered_Performances=registered_Performances,
-        unregistered_Performances=all_performances
+        Album=Album,
+        registered_performances=registered_Performances,
+        unregistered_performances=all_performances
         )
 
 @app.route('/songs', methods=['GET'])
@@ -141,12 +168,12 @@ def get_songs():
     mycursor = connection.cursor()
 
     # check to see if a new song needs to be added
-    new_SongID = request.args.get('new_SongID')
+    # new_SongID = request.args.get('new_SongID')
     new_Title = request.args.get('new_Title')
     new_Composer = request.args.get('new_Composer')
     new_Album = request.args.get('new_Album')
-    if new_SongID is not None and new_Title is not None and new_Composer is not None and new_Album:
-        mycursor.execute("INSERT INTO Song (SongID, Title, Composer, Album) values (%s, %s, %s, %s)", (new_SongID, new_Title, new_Composer, new_Album))
+    if new_Title is not None and new_Composer is not None and new_Album:
+        mycursor.execute("INSERT INTO Song (Title, Composer, Album) values (%s, %s, %s)", (new_Title, new_Composer, new_Album))
         connection.commit()
 
     # check to see if a song needs to be deleted
@@ -159,7 +186,7 @@ def get_songs():
             return render_template("error.html", message="Error deleting Song, perhaps this song is part of a performance")
         
     # retrieve all Songs
-    mycursor.execute("SELECT SongID, Title, Composer from Song")
+    mycursor.execute("SELECT SongID, Title, Composer, Album from Song")
     pageTitle = "Showing all Songs"
     allSongs = mycursor.fetchall()
 
@@ -199,15 +226,15 @@ def get_performances():
             return render_template("error.html", message="Error deleting Performance, perhaps there are students songs for it")
 
     # retrieve all performances
-    mycursor.execute("SELECT Performance.PerformanceID, BandName, YearFormed, PerformanceDate, Length from Performance join Band on Performance.BandID=Band.BandID")
+    mycursor.execute("SELECT Band.BandName, Performance.PerformanceID, Performance.BandID, Performance.PerformanceDate, Performance.Length, Performance.IncludesNonBandPerson from Performance join Band on Band.BandID=Performance.BandID")
     allPerformances = mycursor.fetchall()
     pageTitle = "Showing all Performances"
-    mycursor.execute("SELECT BandID, BandName, YearFormed from Band")
-    allBands = mycursor.fetchall()
+    # mycursor.execute("SELECT BandID, BandName, YearFormed from Band")
+    # allBands = mycursor.fetchall()
 
     mycursor.close()
     connection.close()
-    return render_template('performances.html', PerformanceList=allPerformances, pageTitle=pageTitle, allBands=allBands)
+    return render_template('performances.html', PerformanceList=allPerformances, pageTitle=pageTitle)
 
 @app.route('/bands', methods=['GET'])
 def get_bands():
@@ -216,14 +243,14 @@ def get_bands():
 
     # look to see if a new band should be added
     new_band_info = (
-        request.args.get('new_BandID'),
+        # request.args.get('new_BandID'),
         request.args.get('new_BandName'),
         request.args.get('new_YearFormed'),
         request.args.get('new_OriginCity'),
         request.args.get('new_OriginState')
     )
     if not None in new_band_info:
-        mycursor.execute("INSERT INTO Band (BandID, BandName, YearFormed, OriginCity, OriginState) values (%s, %s, %s, %s, %s)", new_band_info)
+        mycursor.execute("INSERT INTO Band (BandName, YearFormed, OriginCity, OriginState) values (%s, %s, %s, %s)", new_band_info)
         connection.commit()
 
     # look to see if a band should be deleted
@@ -239,48 +266,61 @@ def get_bands():
     mycursor.execute("SELECT BandID, BandName, YearFormed, OriginCity, OriginState from Band")
     allBands = mycursor.fetchall()
 
+    pageTitle = "Showing all Bands"
+
     mycursor.close()
     connection.close()
-    return render_template('bands.html', allBands=allBands)
+    return render_template('bands.html', allBands=allBands, pageTitle=pageTitle,)
 
 @app.route('/band-info', methods=['GET'])
 def get_band_info():
-    BandID = request.args.get('BandID')
+    TheBandID = request.args.get('BandID')
     
     # redirect to all bands if no id was provided
-    if BandID is None:
+    if TheBandID is None:
         return redirect(url_for("get_bands"))
 
     connection = mysql.connector.connect(**creds)
     mycursor = connection.cursor()
 
-    # update Band information
-    BandName = request.args.get('BandName')
-    YearFormed = request.args.get('YearFormed')
-    OriginCity = request.args.get('OriginCity')
-    OriginState = request.args.get('OriginState')
-    if BandName is not None and YearFormed is not None:
-        mycursor.execute("UPDATE Band set BandName=%s, YearFormed=%s, OriginCity=%s, OriginState=%s where BandID=%s", (BandName, YearFormed, OriginCity, OriginState, BandID))
+
+    new_BandID = request.args.get('BandID')
+    new_BandName = request.args.get('new_BandName')
+    new_YearFormed = request.args.get('new_YearFormed')
+    new_OriginCity = request.args.get('new_OriginCity')
+    new_OriginState = request.args.get('new_OriginState')
+
+    if new_BandID is None:
+        return "Error, id not found"
+    elif new_BandName is not None and new_YearFormed is not None:
+        mycursor = connection.cursor()
+        print("UPDATE Band set BandName=%s, YearFormed=%s, OriginCity=%s, OriginState=%s where BandID=%s", (new_BandName, new_YearFormed, new_OriginCity, new_OriginState, new_BandID))
+        mycursor.execute("UPDATE Band set BandName=%s, YearFormed=%s, OriginCity=%s, OriginState=%s where BandID=%s", (new_BandName, new_YearFormed, new_OriginCity, new_OriginState, new_BandID))
         connection.commit()
+        # mycursor.close()
+
 
     # retrieve Band information
-    mycursor.execute("SELECT BandName, YearFormed, OriginCity, OriginState from Band where BandID=%s", (BandID,))
+    mycursor.execute("SELECT BandName, YearFormed, OriginCity, OriginState from Band where BandID=%s", (TheBandID,))
     try:
-        BandName, YearFormed, OriginCity, OriginState = mycursor.fetchall()[0]
+        new_BandName, new_YearFormed, new_OriginCity, new_OriginState = mycursor.fetchall()[0]
     except:
         return render_template("error.html", message="Error retrieving Band - perhaps it doesn't exist")
     
+    # pageTitle = "Showing all Bands"
     # retrieve existing Performances of band
-    mycursor.execute("SELECT PerformanceID, PerformanceDate, Length from Performance where BandID=%s", (BandID,))
+    mycursor.execute("SELECT PerformanceID, PerformanceDate, Length from Performance where BandID=%s", (TheBandID,))
     existingPerformances = mycursor.fetchall()
     
     mycursor.close()
     connection.close()
 
     return render_template("band-info.html",
-                           BandID=BandID,
-                           BandName=BandName,
-                           YearFormed=YearFormed,
+                           BandID=TheBandID,
+                           BandName=new_BandName,
+                           YearFormed=new_YearFormed,
+                           OriginCity=new_OriginCity,
+                           OriginState=new_OriginState,
                            existingPerformances=existingPerformances
                            )
 
