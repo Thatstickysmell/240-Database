@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def default():
-    return render_template('base.html')
+    return render_template('index.html')
 
 @app.route('/performance-info', methods=['GET'])
 def get_performance_info():
